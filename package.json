@@ -1,0 +1,49 @@
+{
+  "name": "aiting",
+  "version": "0.0.1",
+  "main": "./app/main/index.js",
+  "author": "lennon zhong",
+  "scripts": {
+    "dev": "npm run start:render",
+    "build": "vite build",
+    "build:render": "cd ./app/renderer && npm run build",
+    "start:render": "cd ./app/renderer && npm run dev",
+    "start:main": "nodemon --exec electron --trace-warnings . --watch ./app/main",
+    "start": "concurrently \"npm run start:render\"  \"wait-on http://localhost:8080/ && npm run start:main \" ",
+    "pack:win": "npm run build:render && electron-builder --win --ia32"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "electron-is-dev": "^2.0.0",
+    "fs-extra": "^10.1.0",
+    "superagent": "^8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.3.0",
+    "electron": "^20.1.1",
+    "vite": "^3.0.9",
+    "wait-on": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.tingting.music.desktop",
+    "copyright": "lennon test",
+    "productName": "爱听音乐",
+    "directories": {
+      "output": "./release"
+    },
+    "win": {
+      "icon": "./resources/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis"
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true
+    }
+  }
+}
